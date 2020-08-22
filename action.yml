@@ -1,0 +1,13 @@
+name: 'Backlog Pull Request Action'
+description: 'Link PR to backlog issue.'
+author: 'toshimaru'
+inputs:
+  repo-token:
+    description: 'A token for the repository'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: 'user-plus'
+  color: 'blue'

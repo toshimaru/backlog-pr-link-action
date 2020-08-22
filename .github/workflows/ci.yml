@@ -1,0 +1,12 @@
+name: 'Auto Author Assign'
+on: [pull_request]
+jobs:
+  add-assignees:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test toshimaru/backlog-pr-action action
+        uses: ./ # Uses an action in the root directory
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
