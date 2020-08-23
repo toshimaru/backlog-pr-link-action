@@ -504,7 +504,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 };
 
 
-function run() {
+function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const token = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-token", { required: true });
@@ -535,7 +535,7 @@ function run() {
         }
     });
 }
-run();
+main();
 
 
 /***/ }),
