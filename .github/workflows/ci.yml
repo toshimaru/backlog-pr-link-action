@@ -1,4 +1,4 @@
-name: 'Auto Author Assign'
+name: 'Link Pull Request to Backlog issue'
 on: [pull_request]
 jobs:
   add-assignees:

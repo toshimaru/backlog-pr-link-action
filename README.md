@@ -4,13 +4,11 @@
 
 GitHub Actions: Link PR to backlog issue.
 
-![OG image](./img/backlog-pr-action.jpg)
-
 ## Usage
 
 ```yaml
 # .github/workflows/backlog-pr-action.yml
-name: 'Auto Author Assign'
+name: 'Link Pull Request to Backlog issue'
 
 on:
   pull_request:
@@ -20,7 +18,7 @@ jobs:
   add-assignees:
     runs-on: ubuntu-latest
     steps:
-      - uses: toshimaru/backlog-pr-action@v1.1.0
+      - uses: toshimaru/backlog-pr-action@v0.0.1
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
 ```
