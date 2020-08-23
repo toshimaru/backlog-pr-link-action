@@ -4,7 +4,7 @@
     "target": "ES2015",
     "module": "ES2015",
     "moduleResolution": "Node",
-    "outDir": "./dist",
+    "outDir": "./lib",
     "rootDir": "./src",
     "strict": true,
     "noImplicitAny": true,                 /* Raise error on expressions and declarations with an implied 'any' type. */
