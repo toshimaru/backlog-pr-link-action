@@ -2,7 +2,7 @@
   "name": "backlog-pr-action",
   "version": "0.0.1",
   "description": "GitHub Actions: Link PR to backlog issue.",
-  "main": "src/index.js",
+  "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
