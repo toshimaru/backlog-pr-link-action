@@ -20,9 +20,8 @@
   "homepage": "https://github.com/toshimaru/backlog-pr-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.4",
-    "@actions/github": "4.0.0"
+    "@actions/github": "4.0.0",
+    "typescript": "^4.0.2"
   },
-  "devDependencies": {
-    "@zeit/ncc": "^0.22.3"
-  }
+  "devDependencies": {}
 }
