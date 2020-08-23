@@ -3,6 +3,7 @@
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
     "target": "ES2015",
     "module": "ES2015",
+    "moduleResolution": "Node",
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
