@@ -5,6 +5,9 @@ inputs:
   repo-token:
     description: 'A token for the repository'
     required: true
+  backlog-api-key:
+    description: 'API key for Backlog'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'

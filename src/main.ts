@@ -4,8 +4,12 @@ import { context, getOctokit } from '@actions/github';
 async function main() {
   try {
     const token = core.getInput("repo-token", { required: true });
+    const apiKey = core.getInput("backlog-api-key", { required: true });
+
     if (context.payload.pull_request === undefined) {
-      throw new Error("Can't get pull_request payload. Check you trigger pull_request event");
+      throw new Error(
+        "Can't get pull_request payload. Check you trigger pull_request event"
+      );
     }
     const { assignees, number, user: { login: author, type } } = context.payload.pull_request;
 

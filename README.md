@@ -21,4 +21,5 @@ jobs:
       - uses: toshimaru/backlog-pr-action@v0.0.1
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          backlog-api-key: "${{ }}"
 ```
