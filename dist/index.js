@@ -508,6 +508,7 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const token = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repo-token", { required: true });
+            const apiKey = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("backlog-api-key", { required: true });
             if (_actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.pull_request === undefined) {
                 throw new Error("Can't get pull_request payload. Check you trigger pull_request event");
             }
