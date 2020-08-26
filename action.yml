@@ -8,6 +8,9 @@ inputs:
   backlog-api-key:
     description: 'API key for Backlog'
     required: true
+  backlog-host:
+    description: 'Backlog hostname (e.g. xxx.backlog.com")'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'
