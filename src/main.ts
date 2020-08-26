@@ -2,7 +2,7 @@ declare module 'backlog-js' {
   interface IResponse extends Response {}
 }
 
-// import "isomorphic-fetch";
+import "isomorphic-fetch";
 import * as es6promise from "es6-promise";
 import * as core from '@actions/core';
 import * as backlogjs from "backlog-js";
