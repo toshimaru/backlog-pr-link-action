@@ -1,4 +1,6 @@
-interface IResponse extends Response {}
+declare module 'backlog-js' {
+  interface IResponse extends Response {}
+}
 
 // import "isomorphic-fetch";
 import * as es6promise from "es6-promise";
