@@ -1,7 +1,3 @@
-declare module 'backlog-js' {
-  interface IResponse extends Response {}
-}
-
 import "isomorphic-fetch";
 import * as es6promise from "es6-promise";
 import * as core from '@actions/core';
@@ -15,7 +11,6 @@ async function main() {
     const token = core.getInput("repo-token", { required: true });
     const host = core.getInput("backlog-host", { required: true });
     const apiKey = core.getInput("backlog-api-key", { required: true });
-    core.info(`host: ${host}, apiKey: ${apiKey}`);
 
     const backlog = new backlogjs.Backlog({ host, apiKey });
     backlog.getSpace().then((data) => {
