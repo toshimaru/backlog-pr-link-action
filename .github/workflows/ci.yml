@@ -1,5 +1,7 @@
 name: 'Link Pull Request to Backlog issue'
-on: [pull_request]
+on: 
+  pull_request:
+    types: [opened, edited]
 jobs:
   add-assignees:
     runs-on: ubuntu-latest
