@@ -2074,14 +2074,12 @@ function main() {
                 _actions_core__WEBPACK_IMPORTED_MODULE_2__.info(`Assigning author has been skipped since the pull request is already assigned to someone`);
                 return;
             }
-            const octokit = Object(_actions_github__WEBPACK_IMPORTED_MODULE_4__.getOctokit)(token);
-            const result = yield octokit.issues.addAssignees({
+            yield Object(_actions_github__WEBPACK_IMPORTED_MODULE_4__.getOctokit)(token).issues.addAssignees({
                 owner: _actions_github__WEBPACK_IMPORTED_MODULE_4__.context.repo.owner,
                 repo: _actions_github__WEBPACK_IMPORTED_MODULE_4__.context.repo.repo,
                 issue_number: number,
                 assignees: [author]
             });
-            _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(JSON.stringify(result));
             _actions_core__WEBPACK_IMPORTED_MODULE_2__.info(`@${author} has been assigned to the pull request: #${number}`);
         }
         catch (error) {
