@@ -8,7 +8,6 @@ es6promise.polyfill();
 
 async function main() {
   try {
-    const token = core.getInput("repo-token", { required: true });
     const host = core.getInput("backlog-host", { required: true });
     const apiKey = core.getInput("backlog-api-key", { required: true });
 
