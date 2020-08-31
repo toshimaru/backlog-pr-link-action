@@ -11578,7 +11578,7 @@ function main() {
                 throw new Error("Can't get pull_request payload. Check you trigger pull_request event");
             }
             const client = new client_Client(host, apiKey);
-            const { html_url = "", body = "" } = github.context.payload.pull_request;
+            const { html_url: prUrl = "", body = "" } = github.context.payload.pull_request;
             if (!client.containsBacklogUrl(body)) {
                 Object(core.info)("Skip process since body doesn't contain backlog URL");
                 return;
@@ -11607,12 +11607,12 @@ function main() {
                 Object(core.warning)(`Invalid IssueID: ${issueId}`);
                 return;
             }
-            if (prField.value.includes(html_url)) {
-                Object(core.info)(`Pull Request (${html_url}) is already linked.`);
+            if (prField.value.includes(prUrl)) {
+                Object(core.info)(`Pull Request (${prUrl}) is already linked.`);
                 return;
             }
-            yield client.updatePrField(issueId, html_url, prField);
-            Object(core.info)(`Pull Request (${html_url}) is successfully linked.`);
+            yield client.updatePrField(issueId, prUrl, prField);
+            Object(core.info)(`Pull Request (${prUrl}) has been successfully linked.`);
         }
         catch (error) {
             Object(core.setFailed)(error.message);

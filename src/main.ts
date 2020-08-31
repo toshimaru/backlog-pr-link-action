@@ -12,7 +12,7 @@ async function main() {
     }
 
     const client = new Client(host, apiKey);
-    const { html_url = "", body = "" } = context.payload.pull_request;
+    const { html_url: prUrl = "", body = "" } = context.payload.pull_request;
     if (!client.containsBacklogUrl(body)) {
       core.info("Skip process since body doesn't contain backlog URL");
       return;
@@ -44,13 +44,13 @@ async function main() {
       return;
     }
 
-    if (prField.value.includes(html_url)) {
-      core.info(`Pull Request (${html_url}) is already linked.`);
+    if (prField.value.includes(prUrl)) {
+      core.info(`Pull Request (${prUrl}) is already linked.`);
       return;
     }
 
-    await client.updatePrField(issueId, html_url, prField)
-    core.info(`Pull Request (${html_url}) is successfully linked.`);
+    await client.updatePrField(issueId, prUrl, prField);
+    core.info(`Pull Request (${prUrl}) has been successfully linked.`);
   } catch (error) {
     core.setFailed(error.message);
   }
