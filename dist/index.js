@@ -11502,8 +11502,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-const PR_FIELD_NAME = "Pull Request";
-;
+const PR_FIELD_NAME = 'Pull Request';
 class client_Client {
     constructor(host, apiKey) {
         this.host = host;
@@ -11547,7 +11546,7 @@ class client_Client {
     updatePrField(issueId, prUrl, currentPrField) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.backlog.patchIssue(issueId, {
-                [`customField_${currentPrField.id}`]: `${currentPrField.value}\n${prUrl}`,
+                [`customField_${currentPrField.id}`]: `${currentPrField.value}\n${prUrl}`
             });
         });
     }
@@ -11572,20 +11571,20 @@ var main_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arg
 function main() {
     return main_awaiter(this, void 0, void 0, function* () {
         try {
-            const host = Object(core.getInput)("backlog-host", { required: true });
-            const apiKey = Object(core.getInput)("backlog-api-key", { required: true });
+            const host = Object(core.getInput)('backlog-host', { required: true });
+            const apiKey = Object(core.getInput)('backlog-api-key', { required: true });
             if (github.context.payload.pull_request === undefined) {
                 throw new Error("Can't get pull_request payload. Check you trigger pull_request event");
             }
             const client = new client_Client(host, apiKey);
-            const { html_url = "", body = "" } = github.context.payload.pull_request;
+            const { html_url: prUrl = '', body = '' } = github.context.payload.pull_request;
             if (!client.containsBacklogUrl(body)) {
                 Object(core.info)("Skip process since body doesn't contain backlog URL");
                 return;
             }
             const [backlogUrl, projectId, issueId] = client.parseBacklogUrl(body);
             if (backlogUrl === undefined) {
-                Object(core.info)("Skip process since no backlog URL found");
+                Object(core.info)('Skip process since no backlog URL found');
                 return;
             }
             if (!(yield client.validateProject(projectId))) {
@@ -11595,7 +11594,7 @@ function main() {
             Object(core.info)(`Trying to link the Pull Request to ${backlogUrl}`);
             const prCustomField = yield client.getPrCustomField(projectId);
             if (prCustomField === undefined) {
-                Object(core.warning)(`Skip process since "Pull Request" custom field not found`);
+                Object(core.warning)('Skip process since "Pull Request" custom field not found');
                 return;
             }
             let prField;
@@ -11607,12 +11606,12 @@ function main() {
                 Object(core.warning)(`Invalid IssueID: ${issueId}`);
                 return;
             }
-            if (prField.value.includes(html_url)) {
-                Object(core.info)(`Pull Request (${html_url}) is already linked.`);
+            if (prField.value.includes(prUrl)) {
+                Object(core.info)(`Pull Request (${prUrl}) is already linked.`);
                 return;
             }
-            yield client.updatePrField(issueId, html_url, prField);
-            Object(core.info)(`Pull Request (${html_url}) is successfully linked.`);
+            yield client.updatePrField(issueId, prUrl, prField);
+            Object(core.info)(`Pull Request (${prUrl}) has been successfully linked.`);
         }
         catch (error) {
             Object(core.setFailed)(error.message);

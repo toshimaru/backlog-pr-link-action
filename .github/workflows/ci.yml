@@ -3,12 +3,12 @@ on:
   pull_request:
     types: [opened, edited]
 jobs:
-  backlog-pr-action:
+  backlog-pr-link:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Test toshimaru/backlog-pr-action action
+      - name: Test toshimaru/backlog-pr-link-action
         uses: ./ # Uses an action in the root directory
         with:
           backlog-api-key: "${{ secrets.BACKLOG_API_KEY }}"

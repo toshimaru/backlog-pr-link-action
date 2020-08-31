@@ -1,23 +1,25 @@
 {
-  "name": "backlog-pr-action",
-  "version": "0.0.1",
+  "name": "backlog-pr-link-action",
+  "version": "0.0.2",
   "description": "GitHub Actions: Link PR to backlog issue.",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc && ncc build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/*.ts",
+    "lint-fix": "eslint --fix src/*.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/toshimaru/backlog-pr-action.git"
+    "url": "git+https://github.com/toshimaru/backlog-pr-link-action.git"
   },
   "keywords": [],
   "author": "toshimaru",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/toshimaru/backlog-pr-action/issues"
+    "url": "https://github.com/toshimaru/backlog-pr-link-action/issues"
   },
-  "homepage": "https://github.com/toshimaru/backlog-pr-action#readme",
+  "homepage": "https://github.com/toshimaru/backlog-pr-link-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.4",
     "@actions/github": "4.0.0",
@@ -30,6 +32,14 @@
   "devDependencies": {
     "@types/isomorphic-fetch": "0.0.35",
     "@types/node": "^14.6.0",
-    "@zeit/ncc": "^0.22.3"
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
+    "@zeit/ncc": "^0.22.3",
+    "eslint": "^7.7.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
   }
 }
