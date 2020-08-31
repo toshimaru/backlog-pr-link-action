@@ -1,13 +1,13 @@
-![Build](https://github.com/toshimaru/backlog-pr-action/workflows/Build/badge.svg)
+![Build](https://github.com/toshimaru/backlog-pr-link-action/workflows/Build/badge.svg)
 
-# backlog-pr-action
+# backlog-pr-link-action
 
 GitHub Actions: Link PR to backlog issue.
 
 ## Usage
 
 ```yaml
-# .github/workflows/backlog-pr-action.yml
+# .github/workflows/backlog-pr-link.yml
 name: 'Link Pull Request to Backlog issue'
 
 on:
@@ -15,11 +15,11 @@ on:
     types: [opened, edited]
 
 jobs:
-  add-assignees:
+  backlog-pr-link:
     runs-on: ubuntu-latest
     steps:
-      - uses: toshimaru/backlog-pr-action@v0.0.1
+      - uses: toshimaru/backlog-pr-link-action@v0.0.1
         with:
           backlog-api-key: "${{ secrets.BACKLOG_API_KEY }}"
-          backlog-host: "${{ secrets.BACKLOG_HOST }}"
+          backlog-host: "your-org.backlog.com"
 ```
