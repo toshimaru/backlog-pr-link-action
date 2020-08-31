@@ -35,22 +35,9 @@ async function main () {
       return
     }
 
-    let prField: CustomField
-    try {
-      prField = await client.getCurrentPrField(issueId, prCustomField.id)
-    } catch (error) {
-      core.error(error.message)
-      core.warning(`Invalid IssueID: ${issueId}`)
-      return
+    if (await client.updateIssuePrField(issueId, prCustomField.id, prUrl)) {
+      core.info(`Pull Request (${prUrl}) has been successfully linked.`)
     }
-
-    if (prField.value.includes(prUrl)) {
-      core.info(`Pull Request (${prUrl}) is already linked.`)
-      return
-    }
-
-    await client.updatePrField(issueId, prUrl, prField)
-    core.info(`Pull Request (${prUrl}) has been successfully linked.`)
   } catch (error) {
     core.setFailed(error.message)
   }

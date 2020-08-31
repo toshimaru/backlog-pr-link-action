@@ -11502,6 +11502,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
 const PR_FIELD_NAME = 'Pull Request';
 class client_Client {
     constructor(host, apiKey) {
@@ -11536,18 +11537,38 @@ class client_Client {
             return prField;
         });
     }
+    updateIssuePrField(issueId, prFieldId, prUrl) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let currentPrField;
+            try {
+                currentPrField = yield this.getCurrentPrField(issueId, prFieldId);
+            }
+            catch (error) {
+                Object(core.error)(error.message);
+                Object(core.warning)(`Invalid IssueID: ${issueId}`);
+                return false;
+            }
+            if (currentPrField.value.includes(prUrl)) {
+                Object(core.info)(`Pull Request (${prUrl}) is already linked.`);
+                return false;
+            }
+            try {
+                yield this.backlog.patchIssue(issueId, {
+                    [`customField_${currentPrField.id}`]: `${currentPrField.value}\n${prUrl}`
+                });
+                return true;
+            }
+            catch (error) {
+                Object(core.error)(error.message);
+                return false;
+            }
+        });
+    }
     getCurrentPrField(issueId, prFieldId) {
         return __awaiter(this, void 0, void 0, function* () {
             const issue = yield this.backlog.getIssue(issueId);
             const prField = issue.customFields.find((field) => field.id === prFieldId);
             return prField;
-        });
-    }
-    updatePrField(issueId, prUrl, currentPrField) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.backlog.patchIssue(issueId, {
-                [`customField_${currentPrField.id}`]: `${currentPrField.value}\n${prUrl}`
-            });
         });
     }
     get urlRegex() {
@@ -11597,21 +11618,9 @@ function main() {
                 Object(core.warning)('Skip process since "Pull Request" custom field not found');
                 return;
             }
-            let prField;
-            try {
-                prField = yield client.getCurrentPrField(issueId, prCustomField.id);
+            if (yield client.updateIssuePrField(issueId, prCustomField.id, prUrl)) {
+                Object(core.info)(`Pull Request (${prUrl}) has been successfully linked.`);
             }
-            catch (error) {
-                Object(core.error)(error.message);
-                Object(core.warning)(`Invalid IssueID: ${issueId}`);
-                return;
-            }
-            if (prField.value.includes(prUrl)) {
-                Object(core.info)(`Pull Request (${prUrl}) is already linked.`);
-                return;
-            }
-            yield client.updatePrField(issueId, prUrl, prField);
-            Object(core.info)(`Pull Request (${prUrl}) has been successfully linked.`);
         }
         catch (error) {
             Object(core.setFailed)(error.message);
