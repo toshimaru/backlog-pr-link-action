@@ -1,41 +1,56 @@
-import "isomorphic-fetch";
-import * as es6promise from "es6-promise";
 import * as core from '@actions/core';
-import * as backlogjs from "backlog-js";
-import { context, getOctokit } from '@actions/github';
-
-es6promise.polyfill();
+import { context } from '@actions/github';
+import { Client, CustomField } from "./client";
 
 async function main() {
   try {
-    const token = core.getInput("repo-token", { required: true });
     const host = core.getInput("backlog-host", { required: true });
     const apiKey = core.getInput("backlog-api-key", { required: true });
 
-    const backlog = new backlogjs.Backlog({ host, apiKey });
-    backlog.getSpace().then((data) => {
-      core.debug(data);
-    });
-
     if (context.payload.pull_request === undefined) {
-      throw new Error(
-        "Can't get pull_request payload. Check you trigger pull_request event"
-      );
+      throw new Error("Can't get pull_request payload. Check you trigger pull_request event");
     }
-    const { assignees, number, user: { login: author } } = context.payload.pull_request;
 
-    if (assignees.length > 0) {
-      core.info(`Assigning author has been skipped since the pull request is already assigned to someone`);
+    const client = new Client(host, apiKey);
+    const { html_url = "", body = "" } = context.payload.pull_request;
+    if (!client.containsBacklogUrl(body)) {
+      core.info("Skip process since body doesn't contain backlog URL");
       return;
     }
 
-    await getOctokit(token).issues.addAssignees({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      issue_number: number,
-      assignees: [author]
-    });
-    core.info(`@${author} has been assigned to the pull request: #${number}`);
+    const [backlogUrl, projectId, issueId] = client.parseBacklogUrl(body);
+    if (backlogUrl === undefined) {
+      core.info("Skip process since no backlog URL found");
+      return;
+    }
+    if (!await client.validateProject(projectId)) {
+      core.warning(`Invalid ProjectID: ${projectId}`);
+      return;
+    }
+    core.info(`Trying to link the Pull Request to ${backlogUrl}`);
+
+    const prCustomField: CustomField | undefined = await client.getPrCustomField(projectId);
+    if (prCustomField === undefined) {
+      core.warning(`Skip process since "Pull Request" custom field not found`);
+      return;
+    }
+
+    let prField: CustomField;
+    try {
+      prField = await client.getCurrentPrField(issueId, prCustomField.id);
+    } catch (error) {
+      core.error(error.message)
+      core.warning(`Invalid IssueID: ${issueId}`);
+      return;
+    }
+
+    if (prField.value.includes(html_url)) {
+      core.info(`Pull Request (${html_url}) is already linked.`);
+      return;
+    }
+
+    await client.updatePrField(issueId, html_url, prField)
+    core.info(`Pull Request (${html_url}) is successfully linked.`);
   } catch (error) {
     core.setFailed(error.message);
   }

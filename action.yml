@@ -2,9 +2,6 @@ name: 'Backlog Pull Request Action'
 description: 'Link PR to backlog issue.'
 author: 'toshimaru'
 inputs:
-  repo-token:
-    description: 'A token for the repository'
-    required: true
   backlog-api-key:
     description: 'API key for Backlog'
     required: true
