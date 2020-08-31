@@ -1,5 +1,5 @@
 name: 'Link Pull Request to Backlog issue'
-on: 
+on:
   pull_request:
     types: [opened, edited]
 jobs:

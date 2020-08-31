@@ -27,7 +27,7 @@ async function main() {
       core.warning(`Invalid ProjectID: ${projectId}`);
       return;
     }
-    core.info(`Trying to associate the Pull Request with ${backlogUrl}`);
+    core.info(`Trying to link the Pull Request to ${backlogUrl}`);
 
     const prCustomField: CustomField | undefined = await client.getPrCustomField(projectId);
     if (prCustomField === undefined) {
@@ -45,12 +45,12 @@ async function main() {
     }
 
     if (prField.value.includes(html_url)) {
-      core.info(`Pull Request (${html_url}) is already attached.`);
+      core.info(`Pull Request (${html_url}) is already linked.`);
       return;
     }
 
     await client.updatePrField(issueId, html_url, prField)
-    core.info(`Pull Request (${html_url}) is successfully attached.`);
+    core.info(`Pull Request (${html_url}) is successfully linked.`);
   } catch (error) {
     core.setFailed(error.message);
   }

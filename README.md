@@ -12,7 +12,7 @@ name: 'Link Pull Request to Backlog issue'
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, edited]
 
 jobs:
   add-assignees:
@@ -20,7 +20,6 @@ jobs:
     steps:
       - uses: toshimaru/backlog-pr-action@v0.0.1
         with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
           backlog-api-key: "${{ secrets.BACKLOG_API_KEY }}"
           backlog-host: "${{ secrets.BACKLOG_HOST }}"
 ```

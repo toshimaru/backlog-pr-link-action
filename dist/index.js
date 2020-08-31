@@ -11592,7 +11592,7 @@ function main() {
                 Object(core.warning)(`Invalid ProjectID: ${projectId}`);
                 return;
             }
-            Object(core.info)(`Trying to associate the Pull Request with ${backlogUrl}`);
+            Object(core.info)(`Trying to link the Pull Request to ${backlogUrl}`);
             const prCustomField = yield client.getPrCustomField(projectId);
             if (prCustomField === undefined) {
                 Object(core.warning)(`Skip process since "Pull Request" custom field not found`);
@@ -11608,11 +11608,11 @@ function main() {
                 return;
             }
             if (prField.value.includes(html_url)) {
-                Object(core.info)(`Pull Request (${html_url}) is already attached.`);
+                Object(core.info)(`Pull Request (${html_url}) is already linked.`);
                 return;
             }
             yield client.updatePrField(issueId, html_url, prField);
-            Object(core.info)(`Pull Request (${html_url}) is successfully attached.`);
+            Object(core.info)(`Pull Request (${html_url}) is successfully linked.`);
         }
         catch (error) {
             Object(core.setFailed)(error.message);
