@@ -1,3 +1,4 @@
+import * as core from '@actions/core'
 import 'isomorphic-fetch'
 import 'isomorphic-form-data'
 import { Backlog } from 'backlog-js'
@@ -50,6 +51,37 @@ export class Client {
     return prField
   }
 
+  async updateIssuePrField (
+    issueId: string,
+    prFieldId: number,
+    prUrl: string
+  ): Promise<boolean> {
+    let currentPrField: CustomField
+
+    try {
+      currentPrField = await this.getCurrentPrField(issueId, prFieldId)
+    } catch (error) {
+      core.error(error.message)
+      core.warning(`Invalid IssueID: ${issueId}`)
+      return false
+    }
+
+    if (currentPrField.value.includes(prUrl)) {
+      core.info(`Pull Request (${prUrl}) is already linked.`)
+      return false
+    }
+
+    try {
+      await this.backlog.patchIssue(issueId, {
+        [`customField_${currentPrField.id}`]: `${currentPrField.value}\n${prUrl}`
+      })
+      return true
+    } catch (error) {
+      core.error(error.message)
+      return false
+    }
+  }
+
   async getCurrentPrField (
     issueId: string,
     prFieldId: number
@@ -59,12 +91,6 @@ export class Client {
       (field: CustomField) => field.id === prFieldId
     )
     return prField
-  }
-
-  async updatePrField (issueId: string, prUrl: string, currentPrField: CustomField): Promise<any> {
-    await this.backlog.patchIssue(issueId, {
-      [`customField_${currentPrField.id}`]: `${currentPrField.value}\n${prUrl}`
-    })
   }
 
   get urlRegex (): RegExp {
