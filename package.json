@@ -24,6 +24,7 @@
     "backlog-js": "^0.10.0",
     "es6-promise": "^4.2.8",
     "isomorphic-fetch": "^2.2.1",
+    "isomorphic-form-data": "^2.0.0",
     "typescript": "^4.0.2"
   },
   "devDependencies": {
