@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [opened, edited]
 jobs:
-  add-assignees:
+  backlog-pr-action:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -11,6 +11,5 @@ jobs:
       - name: Test toshimaru/backlog-pr-action action
         uses: ./ # Uses an action in the root directory
         with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
           backlog-api-key: "${{ secrets.BACKLOG_API_KEY }}"
           backlog-host: "${{ secrets.BACKLOG_HOST }}"
