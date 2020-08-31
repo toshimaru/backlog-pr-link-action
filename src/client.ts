@@ -56,12 +56,12 @@ export class Client {
   ): Promise<CustomField> {
     const issue = await this.backlog.getIssue(issueId)
     const prField: CustomField = issue.customFields.find(
-      (field: any) => field.id === prFieldId
+      (field: CustomField) => field.id === prFieldId
     )
     return prField
   }
 
-  async updatePrField (issueId: string, prUrl: string, currentPrField: CustomField) {
+  async updatePrField (issueId: string, prUrl: string, currentPrField: CustomField): Promise<any> {
     await this.backlog.patchIssue(issueId, {
       [`customField_${currentPrField.id}`]: `${currentPrField.value}\n${prUrl}`
     })
