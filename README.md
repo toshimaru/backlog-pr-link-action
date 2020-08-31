@@ -8,7 +8,7 @@ GitHub Actions: Link PR to backlog issue.
 
 ```yaml
 # .github/workflows/backlog-pr-link.yml
-name: 'Link Pull Request to Backlog issue'
+name: 'Link PR to Backlog'
 
 on:
   pull_request:
