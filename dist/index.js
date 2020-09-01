@@ -11548,13 +11548,16 @@ class client_Client {
                 Object(core.warning)(`Invalid IssueID: ${issueId}`);
                 return false;
             }
-            if (currentPrField.value.includes(prUrl)) {
+            if ((currentPrField.value || '').includes(prUrl)) {
                 Object(core.info)(`Pull Request (${prUrl}) is already linked.`);
                 return false;
             }
             try {
+                const updateValue = currentPrField.value
+                    ? `${currentPrField.value}\n${prUrl}`
+                    : prUrl;
                 yield this.backlog.patchIssue(issueId, {
-                    [`customField_${currentPrField.id}`]: `${currentPrField.value}\n${prUrl}`
+                    [`customField_${currentPrField.id}`]: updateValue
                 });
                 return true;
             }

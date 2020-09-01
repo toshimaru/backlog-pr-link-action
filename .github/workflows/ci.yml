@@ -1,4 +1,4 @@
-name: 'Link Pull Request to Backlog issue'
+name: 'Link PR to Backlog'
 on:
   pull_request:
     types: [opened, edited]

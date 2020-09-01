@@ -66,14 +66,17 @@ export class Client {
       return false
     }
 
-    if (currentPrField.value.includes(prUrl)) {
+    if ((currentPrField.value || '').includes(prUrl)) {
       core.info(`Pull Request (${prUrl}) is already linked.`)
       return false
     }
 
     try {
+      const updateValue: string = currentPrField.value
+        ? `${currentPrField.value}\n${prUrl}`
+        : prUrl
       await this.backlog.patchIssue(issueId, {
-        [`customField_${currentPrField.id}`]: `${currentPrField.value}\n${prUrl}`
+        [`customField_${currentPrField.id}`]: updateValue
       })
       return true
     } catch (error) {
