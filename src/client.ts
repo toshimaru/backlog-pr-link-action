@@ -8,7 +8,7 @@ const PR_FIELD_NAME = 'Pull Request'
 export interface CustomField {
   id: number;
   name: string;
-  value: string;
+  value?: string | null;
 }
 
 export class Client {
