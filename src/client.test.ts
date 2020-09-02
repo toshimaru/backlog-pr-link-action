@@ -27,3 +27,8 @@ test('validateProject', async () => {
   const isValid = await client.validateProject('')
   expect(isValid).toBe(false)
 })
+
+test('updateIssuePrField', async () => {
+  const result = await client.updateIssuePrField('PROJECT-1', 1, 'https://github.com/xxx/pull/1')
+  expect(result).toBe(false)
+})
