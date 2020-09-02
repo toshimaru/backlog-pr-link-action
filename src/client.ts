@@ -21,7 +21,7 @@ export class Client {
   }
 
   containsBacklogUrl (body: string): boolean {
-    return body.includes(`https://${this.host}/view/`)
+    return this.urlRegex.test(body)
   }
 
   parseBacklogUrl (body: string): Array<string> {
