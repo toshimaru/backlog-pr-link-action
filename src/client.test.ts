@@ -11,8 +11,11 @@ test('containsBacklogUrl', () => {
   expect(client.containsBacklogUrl('https://xxx.backlog.com/view/PROJECT-1')).toBe(true)
 })
 
-// test('parseBacklogUrl', () => {
-// })
+test('parseBacklogUrl', () => {
+  expect(client.parseBacklogUrl('')).toStrictEqual([])
+  const url = 'https://xxx.backlog.com/view/PROJECT-1'
+  expect(client.parseBacklogUrl(`URL: ${url} `)).toStrictEqual([url, 'PROJECT', 'PROJECT-1'])
+})
 
 test('validateProject', async () => {
   const isValid = await client.validateProject('')
