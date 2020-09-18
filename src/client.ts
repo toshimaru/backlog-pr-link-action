@@ -12,8 +12,8 @@ export interface CustomField {
 }
 
 export class Client {
-  host: string;
-  backlog: Backlog;
+  private host: string;
+  private backlog: Backlog;
 
   constructor (host: string, apiKey: string) {
     this.host = host
@@ -96,7 +96,7 @@ export class Client {
     return prField
   }
 
-  get urlRegex (): RegExp {
+  private get urlRegex (): RegExp {
     return new RegExp(`https://${this.host}/view/(\\w+)-(\\d+)`)
   }
 }
