@@ -1,6 +1,6 @@
 {
   "name": "backlog-pr-link-action",
-  "version": "0.0.2",
+  "version": "0.2.1",
   "description": "GitHub Actions: Link PR to backlog issue.",
   "main": "lib/main.js",
   "scripts": {
@@ -33,8 +33,8 @@
     "@types/isomorphic-fetch": "0.0.35",
     "@types/jest": "^26.0.14",
     "@types/node": "^14.10.1",
-    "@typescript-eslint/eslint-plugin": "^4.0.0",
-    "@typescript-eslint/parser": "^3.10.1",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
     "@zeit/ncc": "^0.22.3",
     "eslint": "^7.9.0",
     "eslint-config-standard": "^14.1.1",

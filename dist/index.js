@@ -11510,7 +11510,7 @@ class client_Client {
         this.backlog = new backlog.Backlog({ host, apiKey });
     }
     containsBacklogUrl(body) {
-        return body.includes(`https://${this.host}/view/`);
+        return this.urlRegex.test(body);
     }
     parseBacklogUrl(body) {
         const matchAry = body.match(this.urlRegex);
