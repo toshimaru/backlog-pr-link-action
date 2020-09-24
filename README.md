@@ -18,7 +18,7 @@ jobs:
   backlog-pr-link:
     runs-on: ubuntu-latest
     steps:
-      - uses: toshimaru/backlog-pr-link-action@v0.2.0
+      - uses: toshimaru/backlog-pr-link-action@v0.2.2
         with:
           backlog-api-key: "${{ secrets.BACKLOG_API_KEY }}"
           backlog-host: "your-org.backlog.com"
