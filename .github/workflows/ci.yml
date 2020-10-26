@@ -6,8 +6,7 @@ jobs:
   backlog-pr-link:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: Test toshimaru/backlog-pr-link-action
         uses: ./ # Uses an action in the root directory
         with:
