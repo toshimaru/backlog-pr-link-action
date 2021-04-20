@@ -2,7 +2,7 @@
 
 # backlog-pr-link-action
 
-GitHub Actions: Link PR to backlog issue.
+GitHub Actions: Link Pull Request to [Backlog](https://backlog.com/) issue.
 
 ## Usage
 
@@ -18,7 +18,7 @@ jobs:
   backlog-pr-link:
     runs-on: ubuntu-latest
     steps:
-      - uses: toshimaru/backlog-pr-link-action@v0.3.0
+      - uses: toshimaru/backlog-pr-link-action@v0.3.1
         with:
           backlog-api-key: "${{ secrets.BACKLOG_API_KEY }}"
           backlog-host: "your-org.backlog.com"
