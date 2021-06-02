@@ -1,5 +1,5 @@
 name: 'Check Diff'
-on: [pull_request_target]
+on: [pull_request]
 jobs:
   check-diff:
     runs-on: ubuntu-latest
