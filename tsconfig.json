@@ -18,6 +18,7 @@
     "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
     "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
+    "skipLibCheck": true /* Ignore lib check since backlog-js has some errors */
   }
 }
