@@ -1,5 +1,7 @@
 name: 'Check Diff'
 on: [pull_request]
+permissions:
+  pull-requests: write
 jobs:
   check-diff:
     runs-on: ubuntu-latest
