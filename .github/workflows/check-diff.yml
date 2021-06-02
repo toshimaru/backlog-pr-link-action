@@ -1,0 +1,25 @@
+name: 'Check Diff'
+on: [pull_request]
+jobs:
+  check-diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install
+      - run: npm run build
+      - name: Check Diff
+        run: git diff --exit-code dist/index.js
+      - name: Diff comment
+        if: ${{ failure() }}
+        uses: actions/github-script@v4
+        with:
+          script: |
+            await github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Script diff found. Please run `npm run build` and commit the built script.'
+            })
