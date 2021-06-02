@@ -3,6 +3,7 @@ import { context } from '@actions/github'
 import { Client, CustomField } from './client'
 
 async function main () {
+  console.log('main')
   try {
     const host = core.getInput('backlog-host', { required: true })
     const apiKey = core.getInput('backlog-api-key', { required: true })
