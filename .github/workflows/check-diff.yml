@@ -1,7 +1,7 @@
-name: 'Build'
+name: 'Check Diff'
 on: [push, pull_request]
 jobs:
-  build:
+  check-diff:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -10,5 +10,5 @@ jobs:
           node-version: '14'
       - run: npm install
       - run: npm run build
-      - run: npm run lint
-      - run: npm run test
+      - name: Check Diff
+        run: git diff --exit-code dist/index.js
