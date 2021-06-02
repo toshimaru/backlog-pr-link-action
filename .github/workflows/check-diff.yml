@@ -18,6 +18,7 @@ jobs:
         if: ${{ failure() }}
         uses: actions/github-script@v4
         with:
+          github-token: ${{ secrets.PR_COMMENT_TOKEN }}
           script: |
             await github.issues.createComment({
               issue_number: context.issue.number,
