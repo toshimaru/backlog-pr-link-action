@@ -10,7 +10,11 @@ jobs:
           node-version: '14'
       - run: npm install
       - run: npm run build
-      - uses: actions/github-script@v4
+      - name: Check Diff
+        run: git diff --exit-code dist/index.js
+      - name: Diff comment
+        if: ${{ failure() }}
+        uses: actions/github-script@v4
         with:
           script: |
             await github.issues.createComment({
@@ -19,5 +23,3 @@ jobs:
               repo: context.repo.repo,
               body: 'Welcome, contributor!'
             })
-      - name: Check Diff
-        run: git diff --exit-code dist/index.js
