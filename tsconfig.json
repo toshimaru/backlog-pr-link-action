@@ -19,6 +19,5 @@
     "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
-    "skipLibCheck": true /* Ignore lib check since backlog-js has some errors */
   }
 }
