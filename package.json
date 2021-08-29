@@ -21,6 +21,7 @@
   ],
   "author": "toshimaru",
   "license": "MIT",
+  "private": true,
   "bugs": {
     "url": "https://github.com/toshimaru/backlog-pr-link-action/issues"
   },
