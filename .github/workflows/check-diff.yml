@@ -16,7 +16,7 @@ jobs:
         run: git diff --exit-code dist/index.js
       - name: Diff comment
         if: ${{ failure() }}
-        uses: actions/github-script@v4
+        uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.PR_COMMENT_TOKEN }}
           script: |
