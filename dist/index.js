@@ -14536,7 +14536,9 @@ class Client {
                 currentPrField = yield this.getCurrentPrField(issueId, prFieldId);
             }
             catch (error) {
-                core.error(error.message);
+                if (error instanceof Error) {
+                    core.error(error.message);
+                }
                 core.warning(`Invalid IssueID: ${issueId}`);
                 return false;
             }
@@ -14554,7 +14556,9 @@ class Client {
                 return true;
             }
             catch (error) {
-                core.error(error.message);
+                if (error instanceof Error) {
+                    core.error(error.message);
+                }
                 return false;
             }
         });
@@ -14618,7 +14622,9 @@ function main() {
             }
         }
         catch (error) {
-            core.setFailed(error.message);
+            if (error instanceof Error) {
+                core.setFailed(error.message);
+            }
         }
     });
 }
