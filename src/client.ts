@@ -61,7 +61,9 @@ export class Client {
     try {
       currentPrField = await this.getCurrentPrField(issueId, prFieldId)
     } catch (error) {
-      core.error(error.message)
+      if (error instanceof Error) {
+        core.error(error.message)
+      }
       core.warning(`Invalid IssueID: ${issueId}`)
       return false
     }
@@ -80,7 +82,9 @@ export class Client {
       })
       return true
     } catch (error) {
-      core.error(error.message)
+      if (error instanceof Error) {
+        core.error(error.message)
+      }
       return false
     }
   }
