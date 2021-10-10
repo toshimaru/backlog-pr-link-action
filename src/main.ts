@@ -39,7 +39,9 @@ async function main () {
       core.info(`Pull Request (${prUrl}) has been successfully linked.`)
     }
   } catch (error) {
-    core.setFailed(error.message)
+    if (error instanceof Error) {
+      core.setFailed(error.message)
+    }
   }
 }
 
