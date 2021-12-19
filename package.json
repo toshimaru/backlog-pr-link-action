@@ -50,6 +50,6 @@
     "eslint-plugin-standard": "^5.0.0",
     "jest": "^27.4.4",
     "standard-version": "^9.3.2",
-    "ts-jest": "^27.1.0"
+    "ts-jest": "^27.1.2"
   }
 }
