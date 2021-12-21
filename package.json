@@ -31,7 +31,7 @@
     "@actions/github": "5.0.0",
     "backlog-js": "^0.12.4",
     "es6-promise": "^4.2.8",
-    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-fetch": "^3.0.0",
     "isomorphic-form-data": "^2.0.0",
     "typescript": "^4.5.4"
   },
@@ -44,7 +44,7 @@
     "@vercel/ncc": "^0.31.0",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-standard": "^5.0.0",
