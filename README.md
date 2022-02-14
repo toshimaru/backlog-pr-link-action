@@ -18,7 +18,7 @@ jobs:
   backlog-pr-link:
     runs-on: ubuntu-latest
     steps:
-      - uses: toshimaru/backlog-pr-link-action@v0.5.4
+      - uses: toshimaru/backlog-pr-link-action@v0.7.0
         with:
           backlog-api-key: "${{ secrets.BACKLOG_API_KEY }}"
           backlog-host: "your-org.backlog.com"
@@ -41,7 +41,7 @@ jobs:
 * Reference
     * [English] [API Settings – Backlog Help Center](https://support.backlog.com/hc/en-us/articles/115015420567-API-Settings)
     * [Japanese] 
-	[APIの設定 – Backlog ヘルプセンター](https://support-ja.backlog.com/hc/ja/articles/360035641754)
+* [APIの設定 – Backlog ヘルプセンター](https://support-ja.backlog.com/hc/ja/articles/360035641754)
 
 ![generate backlog api key](https://user-images.githubusercontent.com/803398/94165479-3b973880-fec5-11ea-915d-733d0de6631f.png)
 
