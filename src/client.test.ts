@@ -13,7 +13,8 @@ describe('containsBacklogUrl', () => {
     'https://xxx.backlog.com/view/PROJECT1',
     'https://xxx.backlog.com/view/PROJECT-',
     'https://xxx.backlog.com/view/-1',
-    'https://xxx.backlog.com/view/1-X'
+    'https://xxx.backlog.com/view/1-X',
+    'https://xxx.backlog.com/view/X-X'
   ])('does not contain Backlog URL', (invalidUrl) => {
     expect(client.containsBacklogUrl(invalidUrl)).toBe(false)
   })
@@ -25,8 +26,11 @@ describe('containsBacklogUrl', () => {
 })
 
 describe('parseBacklogUrl', () => {
-  test('single URL', () => {
+  test('invalid URL', () => {
     expect(client.parseBacklogUrl('')).toStrictEqual([])
+  })
+
+  test('single URL', () => {
     const url = 'https://xxx.backlog.com/view/PROJECT-1'
     expect(client.parseBacklogUrl(`URL: ${url} `)).toStrictEqual([url, 'PROJECT', 'PROJECT-1'])
   })
