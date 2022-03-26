@@ -1,12 +1,13 @@
 {
   "name": "backlog-pr-link-action",
   "version": "0.7.0",
+  "private": true,
   "description": "GitHub Actions: Link PR to backlog issue.",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc && ncc build",
     "test": "jest",
-    "lint": "eslint src/*.ts",
+    "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint --fix src/*.ts",
     "release": "standard-version"
   },
@@ -16,12 +17,12 @@
   },
   "keywords": [
     "backlog",
+    "actions",
     "github",
     "github-action"
   ],
   "author": "toshimaru",
   "license": "MIT",
-  "private": true,
   "bugs": {
     "url": "https://github.com/toshimaru/backlog-pr-link-action/issues"
   },
@@ -32,8 +33,7 @@
     "backlog-js": "^0.12.5",
     "es6-promise": "^4.2.8",
     "isomorphic-fetch": "^3.0.0",
-    "isomorphic-form-data": "^2.0.0",
-    "typescript": "^4.6.2"
+    "isomorphic-form-data": "^2.0.0"
   },
   "devDependencies": {
     "@types/isomorphic-fetch": "0.0.36",
@@ -45,11 +45,13 @@
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^26.1.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-standard": "^5.0.0",
     "jest": "^27.5.1",
     "standard-version": "^9.3.2",
-    "ts-jest": "^27.1.4"
+    "ts-jest": "^27.1.4",
+    "typescript": "^4.6.2"
   }
 }
