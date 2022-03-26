@@ -1,8 +1,8 @@
 {
-    "env": {
-        "node": true,
-        "es2020": true
-    },
+    "plugins": [
+        "@typescript-eslint",
+        "jest"
+    ],
     "extends": [
         "standard",
         "plugin:@typescript-eslint/recommended"
@@ -10,11 +10,14 @@
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 12,
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": "./tsconfig.json"
     },
-    "plugins": [
-        "@typescript-eslint"
-    ],
     "rules": {
+    },
+    "env": {
+        "node": true,
+        "es6": true,
+        "jest/globals": true
     }
 }
