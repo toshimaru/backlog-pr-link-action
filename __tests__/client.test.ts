@@ -31,18 +31,28 @@ describe('containsBacklogUrl', () => {
 })
 
 describe('parseBacklogUrl', () => {
-  test('invalid URL', () => {
-    expect(client.parseBacklogUrl('')).toStrictEqual([])
+  test.concurrent.each([
+    '',
+    '\n',
+    'https://xxx.backlog.com/view'
+  ])('invalid URL %#', (body) => {
+    expect(client.parseBacklogUrl(body)).toStrictEqual([])
   })
 
-  test('single URL', () => {
-    const url = 'https://xxx.backlog.com/view/PROJECT-1'
-    expect(client.parseBacklogUrl(`URL: ${url} `)).toStrictEqual([url, 'PROJECT', 'PROJECT-1'])
+  test.concurrent.each([
+    ['URL: https://xxx.backlog.com/view/PROJECT-1 ', 'https://xxx.backlog.com/view/PROJECT-1', 'PROJECT', 'PROJECT-1'],
+    [' hhttps://xxx.backlog.com/view/PROJECT-1x ', 'https://xxx.backlog.com/view/PROJECT-1', 'PROJECT', 'PROJECT-1'],
+    ['\nhttps://xxx.backlog.com/view/PJ-2\n', 'https://xxx.backlog.com/view/PJ-2', 'PJ', 'PJ-2']
+  ])('Single URL %#', (body, url, projectId, issueId) => {
+    expect(client.parseBacklogUrl(body)).toStrictEqual([[url, projectId, issueId]])
   })
 
-  test('multiple URLs', () => {
-    const url = 'https://xxx.backlog.com/view/PROJECT-1\nhttps://xxx.backlog.com/view/PJ-2'
-    expect(client.parseBacklogUrl(`URL: ${url} `)).toStrictEqual([url, 'PROJECT', 'PROJECT-1'])
+  test.concurrent.each([
+    ['https://xxx.backlog.com/view/PROJECT-1 https://xxx.backlog.com/view/PJ-2', 'https://xxx.backlog.com/view/PROJECT-1', 'PROJECT', 'PROJECT-1', 'https://xxx.backlog.com/view/PJ-2', 'PJ', 'PJ-2'],
+    ['https://xxx.backlog.com/view/PROJECT-1\nhttps://xxx.backlog.com/view/PJ-2', 'https://xxx.backlog.com/view/PROJECT-1', 'PROJECT', 'PROJECT-1', 'https://xxx.backlog.com/view/PJ-2', 'PJ', 'PJ-2'],
+    [' https://xxx.backlog.com/view/PROJECT-1https://xxx.backlog.com/view/PJ-2 ', 'https://xxx.backlog.com/view/PROJECT-1', 'PROJECT', 'PROJECT-1', 'https://xxx.backlog.com/view/PJ-2', 'PJ', 'PJ-2']
+  ])('multiple URLs %#', (body, url1, projectId1, issueId1, url2, projectId2, issueId2) => {
+    expect(client.parseBacklogUrl(body)).toStrictEqual([[url1, projectId1, issueId1], [url2, projectId2, issueId2]])
   })
 })
 

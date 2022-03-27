@@ -24,12 +24,15 @@ export class Client {
     return this.urlRegex.test(body)
   }
 
-  parseBacklogUrl (body: string): Array<string> {
-    const matchAry = body.match(this.urlRegex)
-    if (matchAry == null) return []
-
-    const [url, projectId, issueNo] = matchAry
-    return [url, projectId, `${projectId}-${issueNo}`]
+  parseBacklogUrl (body: string): Array<Array<string>> {
+    const matchAry = []
+    const urlRegex = this.urlRegex
+    let matchData
+    while ((matchData = urlRegex.exec(body)) !== null) {
+      const [url, projectId, issueNo] = matchData
+      matchAry.push([url, projectId, `${projectId}-${issueNo}`])
+    }
+    return matchAry
   }
 
   async validateProject (projectId: string): Promise<boolean> {
@@ -101,6 +104,6 @@ export class Client {
   }
 
   private get urlRegex (): RegExp {
-    return new RegExp(`https://${this.host}/view/(\\w+)-(\\d+)`)
+    return new RegExp(`https://${this.host}/view/(\\w+)-(\\d+)`, 'g')
   }
 }

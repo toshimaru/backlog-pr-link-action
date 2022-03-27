@@ -18,25 +18,22 @@ async function main () {
       return
     }
 
-    const [backlogUrl, projectId, issueId] = client.parseBacklogUrl(body)
-    if (backlogUrl === undefined) {
-      core.info('Skip process since no backlog URL found')
-      return
-    }
-    if (!await client.validateProject(projectId)) {
-      core.warning(`Invalid ProjectID: ${projectId}`)
-      return
-    }
-    core.info(`Trying to link the Pull Request to ${backlogUrl}`)
+    for (const [backlogUrl, projectId, issueId] of client.parseBacklogUrl(body)) {
+      if (!await client.validateProject(projectId)) {
+        core.warning(`Invalid ProjectID: ${projectId}`)
+        continue
+      }
+      core.info(`Trying to link the Pull Request to ${backlogUrl}`)
 
-    const prCustomField: CustomField | undefined = await client.getPrCustomField(projectId)
-    if (prCustomField === undefined) {
-      core.warning('Skip process since "Pull Request" custom field not found')
-      return
-    }
+      const prCustomField: CustomField | undefined = await client.getPrCustomField(projectId)
+      if (prCustomField === undefined) {
+        core.warning('Skip process since "Pull Request" custom field not found')
+        continue
+      }
 
-    if (await client.updateIssuePrField(issueId, prCustomField.id, prUrl)) {
-      core.info(`Pull Request (${prUrl}) has been successfully linked.`)
+      if (await client.updateIssuePrField(issueId, prCustomField.id, prUrl)) {
+        core.info(`Pull Request (${prUrl}) has been successfully linked.`)
+      }
     }
   } catch (error) {
     if (error instanceof Error) {
