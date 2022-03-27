@@ -3,7 +3,7 @@ import { Client } from '../src/client'
 const client = new Client('xxx.backlog.com', 'dummy_key')
 
 describe('containsBacklogUrl', () => {
-  it.concurrent.each([
+  test.concurrent.each([
     '',
     'xxx.backlog.com',
     'xxx.backlog.com/view/',
@@ -15,13 +15,18 @@ describe('containsBacklogUrl', () => {
     'https://xxx.backlog.com/view/-1',
     'https://xxx.backlog.com/view/1-X',
     'https://xxx.backlog.com/view/X-X'
-  ])('does not contain Backlog URL', (invalidUrl) => {
+  ])('%s does NOT contain Backlog URL', (invalidUrl) => {
     expect(client.containsBacklogUrl(invalidUrl)).toBe(false)
   })
 
-  it('contains Backlog URL', () => {
-    expect(client.containsBacklogUrl('https://xxx.backlog.com/view/1-1')).toBe(true)
-    expect(client.containsBacklogUrl('https://xxx.backlog.com/view/PROJECT-1')).toBe(true)
+  test.concurrent.each([
+    'https://xxx.backlog.com/view/1-1',
+    'https://xxx.backlog.com/view/PROJECT-1',
+    ' https://xxx.backlog.com/view/PROJECT-1 ',
+    '\nhttps://xxx.backlog.com/view/PROJECT-1\n'
+  ])('%s contains Backlog URL', (validUrl) => {
+    expect(client.containsBacklogUrl(validUrl)).toBe(true)
+    expect(client.containsBacklogUrl(validUrl)).toBe(true)
   })
 })
 
@@ -32,6 +37,11 @@ describe('parseBacklogUrl', () => {
 
   test('single URL', () => {
     const url = 'https://xxx.backlog.com/view/PROJECT-1'
+    expect(client.parseBacklogUrl(`URL: ${url} `)).toStrictEqual([url, 'PROJECT', 'PROJECT-1'])
+  })
+
+  test('multiple URLs', () => {
+    const url = 'https://xxx.backlog.com/view/PROJECT-1\nhttps://xxx.backlog.com/view/PJ-2'
     expect(client.parseBacklogUrl(`URL: ${url} `)).toStrictEqual([url, 'PROJECT', 'PROJECT-1'])
   })
 })
