@@ -67,12 +67,12 @@ export class Client {
       if (error instanceof Error) {
         core.error(error.message)
       }
-      core.warning(`Invalid IssueID: ${issueId}`)
+      core.error(`Invalid IssueID: ${issueId}`)
       return false
     }
 
     if ((currentPrField.value || '').includes(prUrl)) {
-      core.info(`Pull Request (${prUrl}) is already linked.`)
+      core.info(`Pull Request (${prUrl}) is already linked`)
       return false
     }
 
