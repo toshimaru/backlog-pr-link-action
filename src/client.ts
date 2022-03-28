@@ -25,14 +25,14 @@ export class Client {
   }
 
   parseBacklogUrl (body: string): Array<Array<string>> {
-    const matchAry = []
-    const urlRegex = this.urlRegex
-    let matchData
+    const urls: Array<Array<string>> = []
+    const urlRegex: RegExp = this.urlRegex
+    let matchData: Array<string> | null
     while ((matchData = urlRegex.exec(body)) !== null) {
       const [url, projectId, issueNo] = matchData
-      matchAry.push([url, projectId, `${projectId}-${issueNo}`])
+      urls.push([url, projectId, `${projectId}-${issueNo}`])
     }
-    return matchAry
+    return urls
   }
 
   async validateProject (projectId: string): Promise<boolean> {
