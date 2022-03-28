@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import { context } from '@actions/github'
-import { Client, CustomField } from './client'
+import { Client } from './client'
 
 async function main () {
   try {
@@ -19,19 +19,9 @@ async function main () {
     }
 
     for (const [backlogUrl, projectId, issueId] of client.parseBacklogUrl(body)) {
-      if (!await client.validateProject(projectId)) {
-        core.warning(`Invalid ProjectID: ${projectId}`)
-        continue
-      }
       core.info(`Trying to link the Pull Request to ${backlogUrl}`)
 
-      const prCustomField: CustomField | undefined = await client.getPrCustomField(projectId)
-      if (prCustomField === undefined) {
-        core.warning('Skip process since "Pull Request" custom field not found')
-        continue
-      }
-
-      if (await client.updateIssuePrField(issueId, prCustomField.id, prUrl)) {
+      if (await client.updateIssuePrField(projectId, issueId, prUrl)) {
         core.info(`Pull Request (${prUrl}) has been successfully linked`)
       }
     }

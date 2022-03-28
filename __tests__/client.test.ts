@@ -65,7 +65,7 @@ describe('validateProject', () => {
 
 describe('updateIssuePrField', () => {
   it('failed to update', async () => {
-    const result = await client.updateIssuePrField('PROJECT-1', 1, 'https://github.com/xxx/pull/1')
+    const result = await client.updateIssuePrField('PROJECT', 'PROJECT-1', 'https://github.com/xxx/pull/1')
     expect(result).toBe(false)
   })
 })

@@ -5,7 +5,7 @@ import { Backlog } from 'backlog-js'
 
 const PR_FIELD_NAME = 'Pull Request'
 
-export interface CustomField {
+interface CustomField {
   id: number;
   name: string;
   value?: string | null;
@@ -35,6 +35,63 @@ export class Client {
     return urls
   }
 
+  async updateIssuePrField (
+    projectId: string,
+    issueId: string,
+    prUrl: string
+  ): Promise<boolean> {
+    if (!await this.validateProject(projectId)) {
+      core.warning(`Invalid ProjectID: ${projectId}`)
+      return false
+    }
+
+    let prCustomField: CustomField | undefined
+    try {
+      prCustomField = await this.getPrCustomField(projectId)
+    } catch (error) {
+      if (error instanceof Error) {
+        core.error(error.message)
+      }
+      core.error('Failed to get custom field')
+      return false
+    }
+    if (prCustomField === undefined) {
+      core.warning('Skip process since "Pull Request" custom field not found')
+      return false
+    }
+
+    let currentPrField: CustomField
+    try {
+      currentPrField = await this.getCurrentPrField(issueId, prCustomField.id)
+    } catch (error) {
+      if (error instanceof Error) {
+        core.error(error.message)
+      }
+      core.warning(`Invalid IssueID: ${issueId}`)
+      return false
+    }
+    if ((currentPrField.value || '').includes(prUrl)) {
+      core.info(`Pull Request (${prUrl}) has already been linked`)
+      return false
+    }
+
+    try {
+      const updateValue: string = currentPrField.value
+        ? `${currentPrField.value}\n${prUrl}`
+        : prUrl
+      await this.backlog.patchIssue(issueId, {
+        [`customField_${currentPrField.id}`]: updateValue
+      })
+      return true
+    } catch (error) {
+      if (error instanceof Error) {
+        core.error(error.message)
+      }
+      core.error('Failed to update')
+      return false
+    }
+  }
+
   async validateProject (projectId: string): Promise<boolean> {
     try {
       await this.backlog.getProject(projectId)
@@ -52,44 +109,6 @@ export class Client {
       (field: CustomField) => field.name === PR_FIELD_NAME
     )
     return prField
-  }
-
-  async updateIssuePrField (
-    issueId: string,
-    prFieldId: number,
-    prUrl: string
-  ): Promise<boolean> {
-    let currentPrField: CustomField
-
-    try {
-      currentPrField = await this.getCurrentPrField(issueId, prFieldId)
-    } catch (error) {
-      if (error instanceof Error) {
-        core.error(error.message)
-      }
-      core.error(`Invalid IssueID: ${issueId}`)
-      return false
-    }
-
-    if ((currentPrField.value || '').includes(prUrl)) {
-      core.info(`Pull Request (${prUrl}) is already linked`)
-      return false
-    }
-
-    try {
-      const updateValue: string = currentPrField.value
-        ? `${currentPrField.value}\n${prUrl}`
-        : prUrl
-      await this.backlog.patchIssue(issueId, {
-        [`customField_${currentPrField.id}`]: updateValue
-      })
-      return true
-    } catch (error) {
-      if (error instanceof Error) {
-        core.error(error.message)
-      }
-      return false
-    }
   }
 
   async getCurrentPrField (
