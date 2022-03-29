@@ -3,7 +3,7 @@ import { Client } from '../src/client'
 const client = new Client('xxx.backlog.com', 'dummy_key')
 
 describe('containsBacklogUrl', () => {
-  it.concurrent.each([
+  test.concurrent.each([
     '',
     'xxx.backlog.com',
     'xxx.backlog.com/view/',
@@ -15,24 +15,44 @@ describe('containsBacklogUrl', () => {
     'https://xxx.backlog.com/view/-1',
     'https://xxx.backlog.com/view/1-X',
     'https://xxx.backlog.com/view/X-X'
-  ])('does not contain Backlog URL', (invalidUrl) => {
+  ])('%s does NOT contain Backlog URL', (invalidUrl) => {
     expect(client.containsBacklogUrl(invalidUrl)).toBe(false)
   })
 
-  it('contains Backlog URL', () => {
-    expect(client.containsBacklogUrl('https://xxx.backlog.com/view/1-1')).toBe(true)
-    expect(client.containsBacklogUrl('https://xxx.backlog.com/view/PROJECT-1')).toBe(true)
+  test.concurrent.each([
+    'https://xxx.backlog.com/view/1-1',
+    'https://xxx.backlog.com/view/PROJECT-1',
+    ' https://xxx.backlog.com/view/PROJECT-1 ',
+    '\nhttps://xxx.backlog.com/view/PROJECT-1\n'
+  ])('%s contains Backlog URL', (validUrl) => {
+    expect(client.containsBacklogUrl(validUrl)).toBe(true)
+    expect(client.containsBacklogUrl(validUrl)).toBe(true)
   })
 })
 
 describe('parseBacklogUrl', () => {
-  test('invalid URL', () => {
-    expect(client.parseBacklogUrl('')).toStrictEqual([])
+  test.concurrent.each([
+    '',
+    '\n',
+    'https://xxx.backlog.com/view'
+  ])('invalid URL %#', (body) => {
+    expect(client.parseBacklogUrl(body)).toStrictEqual([])
   })
 
-  test('single URL', () => {
-    const url = 'https://xxx.backlog.com/view/PROJECT-1'
-    expect(client.parseBacklogUrl(`URL: ${url} `)).toStrictEqual([url, 'PROJECT', 'PROJECT-1'])
+  test.concurrent.each([
+    ['URL: https://xxx.backlog.com/view/PROJECT-1 ', 'https://xxx.backlog.com/view/PROJECT-1', 'PROJECT', 'PROJECT-1'],
+    [' hhttps://xxx.backlog.com/view/PROJECT-1x ', 'https://xxx.backlog.com/view/PROJECT-1', 'PROJECT', 'PROJECT-1'],
+    ['\nhttps://xxx.backlog.com/view/PJ-2\n', 'https://xxx.backlog.com/view/PJ-2', 'PJ', 'PJ-2']
+  ])('Single URL %#', (body, url, projectId, issueId) => {
+    expect(client.parseBacklogUrl(body)).toStrictEqual([[url, projectId, issueId]])
+  })
+
+  test.concurrent.each([
+    ['https://xxx.backlog.com/view/PROJECT-1 https://xxx.backlog.com/view/PJ-2', 'https://xxx.backlog.com/view/PROJECT-1', 'PROJECT', 'PROJECT-1', 'https://xxx.backlog.com/view/PJ-2', 'PJ', 'PJ-2'],
+    ['https://xxx.backlog.com/view/PROJECT-1\nhttps://xxx.backlog.com/view/PJ-2', 'https://xxx.backlog.com/view/PROJECT-1', 'PROJECT', 'PROJECT-1', 'https://xxx.backlog.com/view/PJ-2', 'PJ', 'PJ-2'],
+    [' https://xxx.backlog.com/view/PROJECT-1https://xxx.backlog.com/view/PJ-2 ', 'https://xxx.backlog.com/view/PROJECT-1', 'PROJECT', 'PROJECT-1', 'https://xxx.backlog.com/view/PJ-2', 'PJ', 'PJ-2']
+  ])('multiple URLs %#', (body, url1, projectId1, issueId1, url2, projectId2, issueId2) => {
+    expect(client.parseBacklogUrl(body)).toStrictEqual([[url1, projectId1, issueId1], [url2, projectId2, issueId2]])
   })
 })
 
@@ -45,7 +65,7 @@ describe('validateProject', () => {
 
 describe('updateIssuePrField', () => {
   it('failed to update', async () => {
-    const result = await client.updateIssuePrField('PROJECT-1', 1, 'https://github.com/xxx/pull/1')
+    const result = await client.updateIssuePrField('PROJECT', 'PROJECT-1', 'https://github.com/xxx/pull/1')
     expect(result).toBe(false)
   })
 })

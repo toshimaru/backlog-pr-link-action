@@ -54,11 +54,68 @@ class Client {
         return this.urlRegex.test(body);
     }
     parseBacklogUrl(body) {
-        const matchAry = body.match(this.urlRegex);
-        if (matchAry == null)
-            return [];
-        const [url, projectId, issueNo] = matchAry;
-        return [url, projectId, `${projectId}-${issueNo}`];
+        const urls = [];
+        const urlRegex = this.urlRegex;
+        let matchData;
+        while ((matchData = urlRegex.exec(body)) !== null) {
+            const [url, projectId, issueNo] = matchData;
+            urls.push([url, projectId, `${projectId}-${issueNo}`]);
+        }
+        return urls;
+    }
+    updateIssuePrField(projectId, issueId, prUrl) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!(yield this.validateProject(projectId))) {
+                core.warning(`Invalid ProjectID: ${projectId}`);
+                return false;
+            }
+            let prCustomField;
+            try {
+                prCustomField = yield this.getPrCustomField(projectId);
+            }
+            catch (error) {
+                if (error instanceof Error) {
+                    core.error(error.message);
+                }
+                core.error('Failed to get custom field');
+                return false;
+            }
+            if (prCustomField === undefined) {
+                core.warning('Skip process since "Pull Request" custom field not found');
+                return false;
+            }
+            let currentPrField;
+            try {
+                currentPrField = yield this.getCurrentPrField(issueId, prCustomField.id);
+            }
+            catch (error) {
+                if (error instanceof Error) {
+                    core.error(error.message);
+                }
+                core.warning(`Invalid IssueID: ${issueId}`);
+                return false;
+            }
+            if ((currentPrField.value || '').includes(prUrl)) {
+                core.info(`Pull Request (${prUrl}) has already been linked`);
+                return false;
+            }
+            try {
+                const updateValue = currentPrField.value
+                    ? `${currentPrField.value}\n${prUrl}`
+                    : prUrl;
+                yield this.backlog.patchIssue(issueId, {
+                    [`customField_${currentPrField.id}`]: updateValue
+                });
+                return true;
+            }
+            catch (error) {
+                if (error instanceof Error) {
+                    core.error(error.message);
+                }
+                core.error('Failed to update');
+                return false;
+            }
+        });
     }
     validateProject(projectId) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -78,40 +135,6 @@ class Client {
             return prField;
         });
     }
-    updateIssuePrField(issueId, prFieldId, prUrl) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let currentPrField;
-            try {
-                currentPrField = yield this.getCurrentPrField(issueId, prFieldId);
-            }
-            catch (error) {
-                if (error instanceof Error) {
-                    core.error(error.message);
-                }
-                core.warning(`Invalid IssueID: ${issueId}`);
-                return false;
-            }
-            if ((currentPrField.value || '').includes(prUrl)) {
-                core.info(`Pull Request (${prUrl}) is already linked.`);
-                return false;
-            }
-            try {
-                const updateValue = currentPrField.value
-                    ? `${currentPrField.value}\n${prUrl}`
-                    : prUrl;
-                yield this.backlog.patchIssue(issueId, {
-                    [`customField_${currentPrField.id}`]: updateValue
-                });
-                return true;
-            }
-            catch (error) {
-                if (error instanceof Error) {
-                    core.error(error.message);
-                }
-                return false;
-            }
-        });
-    }
     getCurrentPrField(issueId, prFieldId) {
         return __awaiter(this, void 0, void 0, function* () {
             const issue = yield this.backlog.getIssue(issueId);
@@ -120,7 +143,7 @@ class Client {
         });
     }
     get urlRegex() {
-        return new RegExp(`https://${this.host}/view/(\\w+)-(\\d+)`);
+        return new RegExp(`https://${this.host}/view/(\\w+)-(\\d+)`, 'g');
     }
 }
 exports.Client = Client;
@@ -175,31 +198,19 @@ function main() {
             const host = core.getInput('backlog-host', { required: true });
             const apiKey = core.getInput('backlog-api-key', { required: true });
             if (github_1.context.payload.pull_request === undefined) {
-                throw new Error("Can't get pull_request payload. Check you trigger pull_request event");
+                throw new Error("Can't get pull_request payload. Check your trigger is pull_request event");
             }
             const client = new client_1.Client(host, apiKey);
             const { html_url: prUrl = '', body = '' } = github_1.context.payload.pull_request;
             if (!client.containsBacklogUrl(body)) {
-                core.info("Skip process since body doesn't contain backlog URL");
+                core.info("Skip process since the body doesn't contain backlog URL");
                 return;
             }
-            const [backlogUrl, projectId, issueId] = client.parseBacklogUrl(body);
-            if (backlogUrl === undefined) {
-                core.info('Skip process since no backlog URL found');
-                return;
-            }
-            if (!(yield client.validateProject(projectId))) {
-                core.warning(`Invalid ProjectID: ${projectId}`);
-                return;
-            }
-            core.info(`Trying to link the Pull Request to ${backlogUrl}`);
-            const prCustomField = yield client.getPrCustomField(projectId);
-            if (prCustomField === undefined) {
-                core.warning('Skip process since "Pull Request" custom field not found');
-                return;
-            }
-            if (yield client.updateIssuePrField(issueId, prCustomField.id, prUrl)) {
-                core.info(`Pull Request (${prUrl}) has been successfully linked.`);
+            for (const [backlogUrl, projectId, issueId] of client.parseBacklogUrl(body)) {
+                core.info(`Trying to link the Pull Request to ${backlogUrl}`);
+                if (yield client.updateIssuePrField(projectId, issueId, prUrl)) {
+                    core.info(`Pull Request (${prUrl}) has been successfully linked`);
+                }
             }
         }
         catch (error) {
