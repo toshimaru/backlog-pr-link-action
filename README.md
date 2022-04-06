@@ -73,9 +73,16 @@ jobs:
 ### 3. Set API key to GitHub Secret
 
 - Go to GitHub Actions secrets page
-- Add GitHub Repository secret 
+- Add GitHub Repository secret
   - secret name: `BACKLOG_API_KEY`
   - secret value: {your-backlog-api-key}
+
+<details>
+  <summary>Image: Set API key to GitHub Secret</summary>
+
+![GitHub Repository secret](https://user-images.githubusercontent.com/803398/161873039-5e54361a-6498-4866-9562-b23151aa3666.png)
+
+</details>
 
 #### Reference
 
