@@ -29,7 +29,7 @@
   "homepage": "https://github.com/toshimaru/backlog-pr-link-action#readme",
   "dependencies": {
     "@actions/core": "^1.6.0",
-    "@actions/github": "5.0.0",
+    "@actions/github": "5.0.1",
     "backlog-js": "^0.12.5",
     "es6-promise": "^4.2.8",
     "isomorphic-fetch": "^3.0.0",
