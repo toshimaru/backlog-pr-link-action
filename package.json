@@ -38,7 +38,7 @@
   "devDependencies": {
     "@types/isomorphic-fetch": "0.0.36",
     "@types/jest": "^27.4.1",
-    "@types/node": "^14.18.11",
+    "@types/node": "^14.18.13",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "@vercel/ncc": "^0.33.3",
