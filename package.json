@@ -9,7 +9,6 @@
     "fmt": "deno fmt -c ./deno.jsonc",
     "test": "jest",
     "lint": "deno lint -c ./deno.jsonc",
-    "lint-fix": "eslint --fix src/*.ts",
     "release": "standard-version"
   },
   "repository": {
