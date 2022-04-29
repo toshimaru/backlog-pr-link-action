@@ -6,8 +6,9 @@
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc && ncc build",
+    "fmt": "deno fmt -c ./deno.jsonc",
     "test": "jest",
-    "lint": "eslint src/**/*.ts",
+    "lint": "deno lint -c ./deno.jsonc",
     "lint-fix": "eslint --fix src/*.ts",
     "release": "standard-version"
   },
