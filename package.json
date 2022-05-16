@@ -30,7 +30,7 @@
   "dependencies": {
     "@actions/core": "^1.7.0",
     "@actions/github": "5.0.1",
-    "backlog-js": "^0.12.5",
+    "backlog-js": "^0.12.6",
     "es6-promise": "^4.2.8",
     "isomorphic-fetch": "^3.0.0",
     "isomorphic-form-data": "^2.0.0"
