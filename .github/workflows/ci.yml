@@ -1,7 +1,9 @@
 name: 'Link PR to Backlog'
+
 on:
   pull_request_target:
     types: [opened, edited]
+
 jobs:
   backlog-pr-link:
     runs-on: ubuntu-latest
