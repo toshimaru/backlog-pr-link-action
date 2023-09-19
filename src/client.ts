@@ -60,7 +60,7 @@ export class Client {
       return false;
     }
 
-    let currentPrField: CustomField;
+    let currentPrField: CustomField | undefined;
     try {
       currentPrField = await this.getCurrentPrField(issueId, prCustomField.id);
     } catch (error) {
@@ -68,6 +68,10 @@ export class Client {
         core.error(error.message);
       }
       core.warning(`Invalid IssueID: ${issueId}`);
+      return false;
+    }
+    if (currentPrField === undefined) {
+      core.error('Failed to get the current value of the custom field');
       return false;
     }
     if ((currentPrField.value || '').includes(prUrl)) {
@@ -114,9 +118,9 @@ export class Client {
   async getCurrentPrField(
     issueId: string,
     prFieldId: number,
-  ): Promise<CustomField> {
+  ): Promise<CustomField | undefined> {
     const issue = await this.backlog.getIssue(issueId);
-    const prField: CustomField = issue.customFields.find(
+    const prField: CustomField | undefined = issue.customFields.find(
       (field: CustomField) => field.id === prFieldId,
     );
     return prField;
