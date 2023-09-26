@@ -3,9 +3,11 @@
   "version": "1.0.3",
   "private": true,
   "description": "GitHub Actions: Link PR to backlog issue.",
-  "main": "lib/main.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "scripts": {
-    "build": "tsc && ncc build",
+    "build": "ncc build src/main.ts --license licenses.txt",
     "fmt": "deno fmt -c ./deno.jsonc",
     "test": "jest",
     "lint": "deno lint -c ./deno.jsonc",

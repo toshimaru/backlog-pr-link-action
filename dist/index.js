@@ -1,234 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 1565:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Client = void 0;
-const core = __importStar(__nccwpck_require__(2186));
-__nccwpck_require__(2340);
-__nccwpck_require__(6612);
-const backlog_js_1 = __nccwpck_require__(3354);
-const PR_FIELD_NAME = 'Pull Request';
-class Client {
-    constructor(host, apiKey) {
-        this.host = host;
-        this.backlog = new backlog_js_1.Backlog({ host, apiKey });
-    }
-    containsBacklogUrl(body) {
-        return this.urlRegex.test(body);
-    }
-    parseBacklogUrl(body) {
-        const urls = [];
-        const urlRegex = this.urlRegex;
-        let matchData;
-        while ((matchData = urlRegex.exec(body)) !== null) {
-            const [url, projectId, issueNo] = matchData;
-            urls.push([url, projectId, `${projectId}-${issueNo}`]);
-        }
-        return urls;
-    }
-    updateIssuePrField(projectId, issueId, prUrl) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!(yield this.validateProject(projectId))) {
-                core.warning(`Invalid ProjectID: ${projectId}`);
-                return false;
-            }
-            let prCustomField;
-            try {
-                prCustomField = yield this.getPrCustomField(projectId);
-            }
-            catch (error) {
-                if (error instanceof Error) {
-                    core.error(error.message);
-                }
-                core.error('Failed to get custom field');
-                return false;
-            }
-            if (prCustomField === undefined) {
-                core.warning('Skip process since "Pull Request" custom field not found');
-                return false;
-            }
-            let currentPrField;
-            try {
-                currentPrField = yield this.getCurrentPrField(issueId, prCustomField.id);
-            }
-            catch (error) {
-                if (error instanceof Error) {
-                    core.error(error.message);
-                }
-                core.warning(`Invalid IssueID: ${issueId}`);
-                return false;
-            }
-            if (currentPrField === undefined) {
-                core.error('Failed to get the current value of the custom field');
-                return false;
-            }
-            if ((currentPrField.value || '').includes(prUrl)) {
-                core.info(`Pull Request (${prUrl}) has already been linked`);
-                return false;
-            }
-            try {
-                const updateValue = currentPrField.value
-                    ? `${currentPrField.value}\n${prUrl}`
-                    : prUrl;
-                yield this.backlog.patchIssue(issueId, {
-                    [`customField_${currentPrField.id}`]: updateValue,
-                });
-                return true;
-            }
-            catch (error) {
-                if (error instanceof Error) {
-                    core.error(error.message);
-                }
-                core.error('Failed to update');
-                return false;
-            }
-        });
-    }
-    validateProject(projectId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                yield this.backlog.getProject(projectId);
-                return true;
-            }
-            catch (_a) {
-                return false;
-            }
-        });
-    }
-    getPrCustomField(projectId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const fields = yield this.backlog.getCustomFields(projectId);
-            const prField = fields.find((field) => field.name === PR_FIELD_NAME);
-            return prField;
-        });
-    }
-    getCurrentPrField(issueId, prFieldId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const issue = yield this.backlog.getIssue(issueId);
-            const prField = issue.customFields.find((field) => field.id === prFieldId);
-            return prField;
-        });
-    }
-    get urlRegex() {
-        return new RegExp(`https://${this.host}/view/(\\w+)-(\\d+)`, 'g');
-    }
-}
-exports.Client = Client;
-
-
-/***/ }),
-
-/***/ 3109:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
-const github_1 = __nccwpck_require__(5438);
-const client_1 = __nccwpck_require__(1565);
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const host = core.getInput('backlog-host', { required: true });
-            const apiKey = core.getInput('backlog-api-key', { required: true });
-            if (github_1.context.payload.pull_request === undefined) {
-                throw new Error('Can\'t get pull_request payload. Check your trigger is pull_request event');
-            }
-            const client = new client_1.Client(host, apiKey);
-            const { html_url: prUrl = '', body = '' } = github_1.context.payload.pull_request;
-            if (!client.containsBacklogUrl(body)) {
-                core.info('Skip process since the body doesn\'t contain backlog URL');
-                return;
-            }
-            for (const [backlogUrl, projectId, issueId] of client.parseBacklogUrl(body)) {
-                core.info(`Trying to link the Pull Request to ${backlogUrl}`);
-                if (yield client.updateIssuePrField(projectId, issueId, prUrl)) {
-                    core.info(`Pull Request (${prUrl}) has been successfully linked`);
-                }
-            }
-        }
-        catch (error) {
-            if (error instanceof Error) {
-                core.setFailed(error.message);
-            }
-        }
-    });
-}
-main();
-
-
-/***/ }),
-
 /***/ 7351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -11191,6 +10963,208 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 4970:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Client = void 0;
+const core = __importStar(__nccwpck_require__(2186));
+__nccwpck_require__(2340);
+__nccwpck_require__(6612);
+const backlog_js_1 = __nccwpck_require__(3354);
+const PR_FIELD_NAME = 'Pull Request';
+class Client {
+    host;
+    backlog;
+    constructor(host, apiKey) {
+        this.host = host;
+        this.backlog = new backlog_js_1.Backlog({ host, apiKey });
+    }
+    containsBacklogUrl(body) {
+        return this.urlRegex.test(body);
+    }
+    parseBacklogUrl(body) {
+        const urls = [];
+        const urlRegex = this.urlRegex;
+        let matchData;
+        while ((matchData = urlRegex.exec(body)) !== null) {
+            const [url, projectId, issueNo] = matchData;
+            urls.push([url, projectId, `${projectId}-${issueNo}`]);
+        }
+        return urls;
+    }
+    async updateIssuePrField(projectId, issueId, prUrl) {
+        if (!await this.validateProject(projectId)) {
+            core.warning(`Invalid ProjectID: ${projectId}`);
+            return false;
+        }
+        let prCustomField;
+        try {
+            prCustomField = await this.getPrCustomField(projectId);
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                core.error(error.message);
+            }
+            core.error('Failed to get custom field');
+            return false;
+        }
+        if (prCustomField === undefined) {
+            core.warning('Skip process since "Pull Request" custom field not found');
+            return false;
+        }
+        let currentPrField;
+        try {
+            currentPrField = await this.getCurrentPrField(issueId, prCustomField.id);
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                core.error(error.message);
+            }
+            core.warning(`Invalid IssueID: ${issueId}`);
+            return false;
+        }
+        if (currentPrField === undefined) {
+            core.error('Failed to get the current value of the custom field');
+            return false;
+        }
+        if ((currentPrField.value || '').includes(prUrl)) {
+            core.info(`Pull Request (${prUrl}) has already been linked`);
+            return false;
+        }
+        try {
+            const updateValue = currentPrField.value
+                ? `${currentPrField.value}\n${prUrl}`
+                : prUrl;
+            await this.backlog.patchIssue(issueId, {
+                [`customField_${currentPrField.id}`]: updateValue,
+            });
+            return true;
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                core.error(error.message);
+            }
+            core.error('Failed to update');
+            return false;
+        }
+    }
+    async validateProject(projectId) {
+        try {
+            await this.backlog.getProject(projectId);
+            return true;
+        }
+        catch {
+            return false;
+        }
+    }
+    async getPrCustomField(projectId) {
+        const fields = await this.backlog.getCustomFields(projectId);
+        const prField = fields.find((field) => field.name === PR_FIELD_NAME);
+        return prField;
+    }
+    async getCurrentPrField(issueId, prFieldId) {
+        const issue = await this.backlog.getIssue(issueId);
+        const prField = issue.customFields.find((field) => field.id === prFieldId);
+        return prField;
+    }
+    get urlRegex() {
+        return new RegExp(`https://${this.host}/view/(\\w+)-(\\d+)`, 'g');
+    }
+}
+exports.Client = Client;
+
+
+/***/ }),
+
+/***/ 399:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const github_1 = __nccwpck_require__(5438);
+const client_1 = __nccwpck_require__(4970);
+async function main() {
+    try {
+        const host = core.getInput('backlog-host', { required: true });
+        const apiKey = core.getInput('backlog-api-key', { required: true });
+        if (github_1.context.payload.pull_request === undefined) {
+            throw new Error('Can\'t get pull_request payload. Check your trigger is pull_request event');
+        }
+        const client = new client_1.Client(host, apiKey);
+        const { html_url: prUrl = '', body = '' } = github_1.context.payload.pull_request;
+        if (!client.containsBacklogUrl(body)) {
+            core.info('Skip process since the body doesn\'t contain backlog URL');
+            return;
+        }
+        for (const [backlogUrl, projectId, issueId] of client.parseBacklogUrl(body)) {
+            core.info(`Trying to link the Pull Request to ${backlogUrl}`);
+            if (await client.updateIssuePrField(projectId, issueId, prUrl)) {
+                core.info(`Pull Request (${prUrl}) has been successfully linked`);
+            }
+        }
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            core.setFailed(error.message);
+        }
+    }
+}
+main();
+
+
+/***/ }),
+
 /***/ 2877:
 /***/ ((module) => {
 
@@ -11377,7 +11351,7 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(3109);
+/******/ 	var __webpack_exports__ = __nccwpck_require__(399);
 /******/ 	module.exports = __webpack_exports__;
 /******/ 	
 /******/ })()
