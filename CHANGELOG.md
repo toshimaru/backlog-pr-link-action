@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/toshimaru/backlog-pr-link-action/compare/v1.0.3...v1.1.0) (2023-10-01)
+
+
+### Bug Fixes
+
+* Type is not assignable ([5cee47e](https://github.com/toshimaru/backlog-pr-link-action/commit/5cee47e72ce7a5dc09e80e554bc7901b1d289c0a))
+
 ### [1.0.3](https://github.com/toshimaru/backlog-pr-link-action/compare/v1.0.2...v1.0.3) (2022-12-28)
 
 ### [1.0.2](https://github.com/toshimaru/backlog-pr-link-action/compare/v1.0.1...v1.0.2) (2022-07-12)

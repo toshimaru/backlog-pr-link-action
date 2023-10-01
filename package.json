@@ -1,6 +1,6 @@
 {
   "name": "backlog-pr-link-action",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "private": true,
   "description": "GitHub Actions: Link PR to backlog issue.",
   "exports": {
