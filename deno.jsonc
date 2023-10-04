@@ -15,6 +15,7 @@
   "fmt": {
     "include": ["src"],
     "exclude": ["node_modules"],
+    "semiColons": false,
     "useTabs": false,
     "lineWidth": 100,
     "indentWidth": 2,
