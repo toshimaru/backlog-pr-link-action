@@ -4,12 +4,9 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
-    open-pull-requests-limit: 15
+    open-pull-requests-limit: 10
     reviewers:
       - toshimaru
-    ignore:
-      - dependency-name: "@types/node"
-        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
