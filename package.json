@@ -6,6 +6,9 @@
   "exports": {
     ".": "./dist/index.js"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "ncc build src/main.ts --license licenses.txt",
     "fmt": "deno fmt -c ./deno.jsonc",
