@@ -15,15 +15,11 @@
     }
   },
   "fmt": {
-    "files": {
-      "include": ["src"],
-      "exclude": ["node_modules"]
-    },
-    "options": {
-      "useTabs": false,
-      "lineWidth": 100,
-      "indentWidth": 2,
-      "singleQuote": true
-    }
+    "include": ["src"],
+    "exclude": ["node_modules"],
+    "useTabs": false,
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "singleQuote": true
   }
 }
