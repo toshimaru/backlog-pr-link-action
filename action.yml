@@ -9,7 +9,7 @@ inputs:
     description: 'Backlog hostname (e.g. your-org.backlog.com")'
     required: true
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
 branding:
   icon: 'user-plus'
