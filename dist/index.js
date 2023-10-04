@@ -11058,9 +11058,7 @@ class Client {
             return false;
         }
         try {
-            const updateValue = currentPrField.value
-                ? `${currentPrField.value}\n${prUrl}`
-                : prUrl;
+            const updateValue = currentPrField.value ? `${currentPrField.value}\n${prUrl}` : prUrl;
             await this.backlog.patchIssue(issueId, {
                 [`customField_${currentPrField.id}`]: updateValue,
             });
