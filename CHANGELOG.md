@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/toshimaru/backlog-pr-link-action/compare/v1.1.0...v2.0.0) (2023-10-08)
+
+
+### Bug Fixes
+
+* Fix deno fmt warnings ([5f4c02e](https://github.com/toshimaru/backlog-pr-link-action/commit/5f4c02e8db8bc64364d94c15856aed5a08d843cf))
+* Fix deno lint warnings ([aadf2d0](https://github.com/toshimaru/backlog-pr-link-action/commit/aadf2d061d1d6f5d9a6974c4946b96313cb3ea6c))
+
 ## [1.1.0](https://github.com/toshimaru/backlog-pr-link-action/compare/v1.0.3...v1.1.0) (2023-10-01)
 
 
