@@ -40,7 +40,7 @@
     "isomorphic-form-data": "^2.0.0"
   },
   "devDependencies": {
-    "@types/isomorphic-fetch": "0.0.37",
+    "@types/isomorphic-fetch": "0.0.38",
     "@types/jest": "^27.4.1",
     "@types/node": "^20.8.7",
     "@vercel/ncc": "^0.38.1",
