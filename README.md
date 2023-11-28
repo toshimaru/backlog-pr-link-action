@@ -23,7 +23,7 @@ jobs:
   backlog-pr-link:
     runs-on: ubuntu-latest
     steps:
-      - uses: toshimaru/backlog-pr-link-action@v1.1.0
+      - uses: toshimaru/backlog-pr-link-action@v2.1.0
         with:
           backlog-api-key: "${{ secrets.BACKLOG_API_KEY }}"
           backlog-host: "your-org.backlog.com"
@@ -80,7 +80,7 @@ jobs:
 <details>
   <summary>Image: Set API key to GitHub Secret</summary>
 
-![GitHub Repository secret](https://user-images.githubusercontent.com/803398/161873039-5e54361a-6498-4866-9562-b23151aa3666.png)
+![GitHub Repository secret](https://user-images.githubusercontent.com/803398/161873040-5e54361a-6498-4866-9562-b23151aa3666.png)
 
 </details>
 
