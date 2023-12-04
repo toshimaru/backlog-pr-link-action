@@ -42,7 +42,7 @@
   "devDependencies": {
     "@types/isomorphic-fetch": "0.0.39",
     "@types/jest": "^27.4.1",
-    "@types/node": "^20.10.0",
+    "@types/node": "^20.10.3",
     "@vercel/ncc": "^0.38.1",
     "jest": "^27.5.1",
     "standard-version": "^9.5.0",
