@@ -8,13 +8,13 @@ async function main() {
     const apiKey = core.getInput('backlog-api-key', { required: true })
 
     if (context.payload.pull_request === undefined) {
-      throw new Error('Can\'t get pull_request payload. Check your trigger is pull_request event')
+      throw new Error("Can't get pull_request payload. Check your trigger is pull_request event")
     }
 
     const client = new Client(host, apiKey)
     const { html_url: prUrl = '', body = '' } = context.payload.pull_request
     if (!client.containsBacklogUrl(body)) {
-      core.info('Skip process since the body doesn\'t contain backlog URL')
+      core.info("Skip process since the body doesn't contain backlog URL")
       return
     }
 

@@ -34478,12 +34478,12 @@ async function main() {
         const host = core.getInput('backlog-host', { required: true });
         const apiKey = core.getInput('backlog-api-key', { required: true });
         if (github_1.context.payload.pull_request === undefined) {
-            throw new Error('Can\'t get pull_request payload. Check your trigger is pull_request event');
+            throw new Error("Can't get pull_request payload. Check your trigger is pull_request event");
         }
         const client = new client_1.Client(host, apiKey);
         const { html_url: prUrl = '', body = '' } = github_1.context.payload.pull_request;
         if (!client.containsBacklogUrl(body)) {
-            core.info('Skip process since the body doesn\'t contain backlog URL');
+            core.info("Skip process since the body doesn't contain backlog URL");
             return;
         }
         for (const [backlogUrl, projectId, issueId] of client.parseBacklogUrl(body)) {
