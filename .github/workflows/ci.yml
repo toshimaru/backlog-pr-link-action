@@ -7,10 +7,10 @@ on:
 jobs:
   backlog-pr-link:
     runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.body, 'backlog.com')
     steps:
       - uses: actions/checkout@v4
       - name: Test toshimaru/backlog-pr-link-action
-        if: contains(github.event.pull_request.body, 'backlog.com')
         uses: ./ # Uses an action in the root directory
         with:
           backlog-api-key: "${{ secrets.BACKLOG_API_KEY }}"
