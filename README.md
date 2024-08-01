@@ -29,6 +29,21 @@ jobs:
           backlog-host: "your-org.backlog.com"
 ```
 
+### Tips: Avoiding unnecessary runs
+
+If the pull request doesn't contain a Backlog URL, no need to run this action.
+
+To avoid this situation, you can skip the job by using `if` expression as follows:
+
+```yaml
+jobs:
+  backlog-pr-link:
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.body, 'backlog.com')
+    steps:
+      - ...
+```
+
 ## How it works
 
 - Check the pull request has a Backlog issue URL when it's opened or edited
