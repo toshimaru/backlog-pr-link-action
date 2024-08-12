@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/toshimaru/backlog-pr-link-action/compare/v2.1.1...v2.1.2) (2024-08-12)
+
+
+### Features
+
+* Run `backlog-pr-link` if it contains Backlog URL ([#526](https://github.com/toshimaru/backlog-pr-link-action/issues/526)) ([55fd742](https://github.com/toshimaru/backlog-pr-link-action/commit/55fd7424ca0983ea940f5f57e4a16aabb9b01f49)), closes [#525](https://github.com/toshimaru/backlog-pr-link-action/issues/525)
+* Run action if the PR decription contains Backlog URL ([#525](https://github.com/toshimaru/backlog-pr-link-action/issues/525)) ([8140f29](https://github.com/toshimaru/backlog-pr-link-action/commit/8140f291f7857a4a84bd05f9ca99b74078683253))
+
 ### [2.1.1](https://github.com/toshimaru/backlog-pr-link-action/compare/v2.1.0...v2.1.1) (2024-04-03)
 
 ## [2.1.0](https://github.com/toshimaru/backlog-pr-link-action/compare/v2.0.0...v2.1.0) (2023-11-27)
