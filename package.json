@@ -43,7 +43,7 @@
     "@types/isomorphic-fetch": "0.0.39",
     "@types/jest": "^27.4.1",
     "@types/node": "^20.17.14",
-    "@vercel/ncc": "^0.38.2",
+    "@vercel/ncc": "^0.38.3",
     "jest": "^27.5.1",
     "standard-version": "^9.5.0",
     "ts-jest": "^27.1.4",
