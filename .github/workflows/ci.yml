@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.pull_request.body, 'backlog.com')
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Test toshimaru/backlog-pr-link-action
         uses: ./ # Uses an action in the root directory
         with:
