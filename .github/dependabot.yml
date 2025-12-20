@@ -4,6 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
+# No reviewers are assigned to Dependabot pull requests.
     open-pull-requests-limit: 10
   - package-ecosystem: github-actions
     directory: "/"
