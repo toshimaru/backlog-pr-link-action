@@ -12,5 +12,5 @@ runs:
   using: 'node24'
   main: 'dist/index.js'
 branding:
-  icon: 'user-plus'
-  color: 'blue'
+  icon: 'link-2'
+  color: 'green'
