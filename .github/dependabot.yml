@@ -7,7 +7,6 @@ updates:
     open-pull-requests-limit: 10
     ignore:
       - dependency-name: "@types/node"
-        update-types: ["version-update:semver-major"]
         versions: [">=25"]
   - package-ecosystem: github-actions
     directory: "/"
