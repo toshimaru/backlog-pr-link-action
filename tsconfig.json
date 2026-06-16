@@ -1,6 +1,7 @@
 {
   // ref. https://www.typescriptlang.org/tsconfig
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "target": "ES2022",
     "module": "NodeNext",
     "rootDir": "./src",
