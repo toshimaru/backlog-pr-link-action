@@ -6,7 +6,6 @@
     "module": "NodeNext",
     "rootDir": "./src",
     "outDir": "./dist",
-    "baseUrl": "./",
     "newLine": "lf",
     "sourceMap": true,
     "strict": true,
