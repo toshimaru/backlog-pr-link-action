@@ -2,10 +2,10 @@
   // ref. https://www.typescriptlang.org/tsconfig
   "compilerOptions": {
     "target": "ES2022",
+    "types": ["jest", "node"],
     "module": "NodeNext",
     "rootDir": "./src",
     "outDir": "./dist",
-    "baseUrl": "./",
     "newLine": "lf",
     "sourceMap": true,
     "strict": true,
