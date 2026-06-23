@@ -1,7 +1,6 @@
 {
   // ref. https://www.typescriptlang.org/tsconfig
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
     "target": "ES2022",
     "types": ["jest", "node"],
     "module": "NodeNext",
