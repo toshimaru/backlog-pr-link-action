@@ -30882,6 +30882,11 @@ var setToStringTag = __nccwpck_require__(8700);
 var populate = __nccwpck_require__(1835);
 var Buffer = (__nccwpck_require__(7981).Buffer);
 
+// escape CR/LF/`"` so a name/filename can't inject headers or smuggle parts; matches the WHATWG HTML multipart/form-data encoding
+function escapeHeaderParam(str) {
+  return String(str).replace(/\r/g, '%0D').replace(/\n/g, '%0A').replace(/"/g, '%22');
+}
+
 /**
  * Create readable "multipart/form-data" streams.
  * Can be used to submit forms
@@ -31057,7 +31062,7 @@ FormData.prototype._multiPartHeader = function (field, value, options) {
   var contents = '';
   var headers = {
     // add custom disposition as third element or keep it two elements if not
-    'Content-Disposition': ['form-data', 'name="' + field + '"'].concat(contentDisposition || []),
+    'Content-Disposition': ['form-data', 'name="' + escapeHeaderParam(field) + '"'].concat(contentDisposition || []),
     // if no content type. allow it to be empty array
     'Content-Type': [].concat(contentType || []),
   };
@@ -31112,7 +31117,7 @@ FormData.prototype._getContentDisposition = function (value, options) {
   }
 
   if (filename) {
-    contentDisposition = 'filename="' + filename + '"';
+    contentDisposition = 'filename="' + escapeHeaderParam(filename) + '"';
   }
 
   return contentDisposition;
