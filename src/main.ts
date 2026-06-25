@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import { context } from '@actions/github'
-import { Client } from './client'
+import { Client } from './client.js'
 
 async function main() {
   try {
