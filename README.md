@@ -32,9 +32,9 @@ jobs:
 > [!TIP]
 > **Avoiding unnecessary runs**
 >
-> If the pull request doesn't contain a Backlog URL, no need to run this action.
+> If the pull request doesn't contain a Backlog URL, there's no need to run this action.
 >
-> To avoid this situation, you can skip the job by using `if` expression as follows:
+> To avoid this situation, you can skip the job by using an `if` expression as follows:
 >
 > ```yml
 > # Run the job only when the pull request contains a Backlog URL
