@@ -23,27 +23,28 @@ jobs:
   backlog-pr-link:
     runs-on: ubuntu-latest
     steps:
-      - uses: toshimaru/backlog-pr-link-action@v2.1.1
+      - uses: toshimaru/backlog-pr-link-action@v2.3.0
         with:
           backlog-api-key: "${{ secrets.BACKLOG_API_KEY }}"
           backlog-host: "your-org.backlog.com"
 ```
 
-### Tips: Avoiding unnecessary runs
-
-If the pull request doesn't contain a Backlog URL, no need to run this action.
-
-To avoid this situation, you can skip the job by using `if` expression as follows:
-
-```yml
-# Run the job only when the pull request contains a Backlog URL
-jobs:
-  backlog-pr-link:
-    runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.body, 'https://yourhost.backlog.com/')
-    steps:
-      - ...
-```
+> [!TIP]
+> **Avoiding unnecessary runs**
+>
+> If the pull request doesn't contain a Backlog URL, there's no need to run this action.
+>
+> To avoid this situation, you can skip the job by using an `if` expression as follows:
+>
+> ```yml
+> # Run the job only when the pull request contains a Backlog URL
+> jobs:
+>   backlog-pr-link:
+>     runs-on: ubuntu-latest
+>     if: contains(github.event.pull_request.body, 'https://yourhost.backlog.com/')
+>     steps:
+>       - ...
+> ```
 
 ## How it works
 
