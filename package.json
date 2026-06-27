@@ -15,7 +15,8 @@
     "fmt": "deno fmt -c ./deno.jsonc",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "deno lint -c ./deno.jsonc",
-    "release": "standard-version"
+    "release": "standard-version",
+    "audit": "npm audit"
   },
   "repository": {
     "type": "git",
@@ -81,5 +82,9 @@
       ]
     },
     "verbose": true
+  },
+  "overrides": {
+    "js-yaml": "^5.2.0",
+    "undici": "^6.27.0"
   }
 }
