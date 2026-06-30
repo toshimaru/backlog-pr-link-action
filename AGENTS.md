@@ -43,3 +43,16 @@ Do not commit Backlog API keys or GitHub secrets. Use repository or organization
 ## Agent-Specific Instructions
 
 Use the `gh` command line tool to interact with GitHub repositories.
+
+## Cursor Cloud specific instructions
+
+This repo is a TypeScript GitHub Action (no long-running server). The standard `build`/`test`/`lint`/`fmt` commands are in `package.json`; the CI flow is in `.github/workflows/test.yml`.
+
+Environment notes (the update script only runs `npm ci`; toolchain is provisioned in the VM):
+
+- Node.js 24 is required (`engines.node >=24`). A system-injected `/exec-daemon/node` is Node 22 and appears early on `PATH`; `~/.bashrc` prepends the nvm Node 24 bin so fresh login shells resolve Node 24. If a shell shows Node 22, run `nvm use 24` or start a login shell (`bash -l`).
+- Deno v2 (used by `npm run lint` / `npm run fmt`) is installed at `~/.deno/bin` and added to `PATH` via `~/.bashrc`.
+- `npm run fmt -- --check` (used in CI) checks formatting without writing; plain `npm run fmt` rewrites files.
+- After editing `src/`, run `npm run build` and commit the regenerated `dist/index.js`; the `check-diff` workflow fails if `dist/index.js` is out of date.
+
+Running the action locally end-to-end (no GUI): point `GITHUB_EVENT_PATH` at a JSON file containing a `pull_request` payload (with `html_url` and `body`), set inputs via env vars `INPUT_BACKLOG-HOST` and `INPUT_BACKLOG-API-KEY` (note the hyphen in the env var names), then run `node dist/index.js`. A real link requires valid Backlog Premium credentials; with dummy values the action still exercises URL detection/parsing and gracefully warns `Invalid ProjectID`.
